@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Display from './Components/Display';
+import Navigation from './Components/Navigation'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      response: {}
+    };
+
+    this.fetch_data = this.fetch_data.bind(this);
+  }
+
+  fetch_data(response) {
+    this.setState({
+      response
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Navigation get_data={this.fetch_data} />
+        <Display response={this.state.response} />
+      </div>
+    );
+  }
 }
 
 export default App;

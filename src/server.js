@@ -17,10 +17,10 @@ const HEADINGS = [
 
 // app.use(cors());
 // app.use(express.static(path.join(__dirname, '../../build')));
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res, next) => {
-	// res.sendFile(__dirname + '/index.html');
-	res.sendFile(path.join(__dirname, 'build', 'index.html'));
+	res.sendFile(__dirname + '/index.html');
+	// res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use("/test", (req, res) => {

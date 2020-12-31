@@ -17,7 +17,7 @@ const HEADINGS = [
 
 // app.use(cors());
 app.use(express.static(path.join(__dirname, '../../build')));
-app.get('/', (req, res, next) => res.sendFile(__dirname + '/../public/index.html'));
+app.get('/', (req, res, next) => res.sendFile(__dirname + '/index.html'));
 
 app.use("/test", (req, res) => {
 	let files = fs.readdirSync(`__dirname/../solutions`);

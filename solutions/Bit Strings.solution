@@ -1,0 +1,42 @@
+-Author Pranshu Teotia
+
+-Name Bit Strings
+
+-Problem_Link https://cses.fi/problemset/task/1617
+
+-Code c++'
+#include <iostream>
+
+#define MOD (size_t) (1e9 + 7)
+
+size_t fast_pow(size_t a, size_t n) {
+  if(n == 1) {
+    return a;
+  
+  } else {
+    size_t p = fast_pow(a, n/2) % MOD;
+
+    if(n % 2 == 0) {
+      return (p*p) % MOD;
+    
+    } else {
+      return (p*p*(a % MOD)) % MOD;
+    }
+  }
+}
+
+int main() {
+  size_t n;
+  std::cin >> n;
+
+  std::cout << fast_pow(2, n) << std::endl;
+}
+'
+
+-Explanation To solve this we just need to calculate the answer to 2 to the nth power. Since the range of n is
+quite large the power could be outside the range of even long long int so that why the problem asks us to provide
+the ans % (1e9 + 7). We can implement a power function that runs in log(n) time and modify it such that the ans 
+always stays within the bound of int.
+
+We can use one of the mod rules to achieve this:
+$(a \times b) mod M = ((a mod M) \times (b mod M)) mod M$

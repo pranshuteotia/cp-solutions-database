@@ -1,0 +1,75 @@
+-Author Pranshu Teotia
+
+-Name Palindrome Reorder
+
+-Problem_Link https://cses.fi/problemset/task/1622
+
+-Code c++'
+#include <iostream>
+#include <list>
+#include <vector>
+
+int main() {
+  std::string s;
+  std::cin >> s;
+
+  std::vector<int> alpha(26, 0);
+  for(char c : s) {
+    ++alpha[c - 'A'];
+  }
+
+  size_t odd_chars = 0;
+  int odd_char_idx = -1;
+  // If the char count is odd then the LSB will be set to 1.
+  for(size_t i=0; i<alpha.size(); ++i){
+    size_t count = alpha[i];
+    odd_chars += count & 1;
+    odd_char_idx = (count & 1)? odd_char_idx = i: odd_char_idx;
+
+  }
+    
+  if(odd_chars > 1) {
+    std::cout << "NO SOLUTION\n";
+  
+  } else {
+    std::list<char> palin_str;
+
+    while(alpha[odd_char_idx]-- != 0) palin_str.push_back('A' + odd_char_idx);
+
+    for(size_t i=0; i<alpha.size(); ++i) {
+      if(alpha[i] != 0) {
+
+        while(alpha[i] > 0) {
+          palin_str.push_back('A' + i);
+          palin_str.push_front('A' + i);
+          alpha[i] -= 2;
+        }
+      }
+    }
+
+    for(char c : palin_str) {
+      std::cout << c;
+    }
+    std::cout << std::endl;
+  }
+}
+'
+
+-Explanation WE can count the frequency of each letter and then check if more than one
+letters with an odd frequrency exists. If that is the case we  cannot construct a palindrom string.
+If that is not the case then we can construct the stringt in this way:
+
+1. Add the odd frequency letter first.
+
+2. For every letter with an even frequency which is > 0 alternate between adding it to the front and
+the back.
+
+3. Print the string.
+
+For example: AAAACACBABB
+This string has one odd frequecy letter B with a frequency of 3
+So we can start the construction of our string like this "BBB"
+
+Now we can go over all the letters with an even frequency > 0 and alterante between it 
+which ends up being this:
+CAAABBBAAAC

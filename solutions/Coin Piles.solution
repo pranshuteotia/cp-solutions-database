@@ -1,0 +1,56 @@
+-Author Pranshu Teotia
+
+-Name Coin Piles
+
+-Problem_Link https://cses.fi/problemset/task/1754
+
+-Code c++'
+#include <iostream>
+
+int main() {
+  size_t t;
+  std::cin >> t;
+
+  while(t--) {
+    size_t a, b;
+    std::cin >> a >> b;
+
+    if( ((2*a-b) >= 0 && (2*a-b)%3 == 0) && ((2*b-a) >= 0 && (2*b-a)%3 == 0)) {
+      std::cout << "YES\n";
+    
+    } else {
+      std::cout << "NO\n";
+    }
+  }
+}
+'
+
+-Explanation
+Given a, b
+Let x = Take 2 from pile a and 1 from pile b
+Let y = Take 2 from pile b and 1 from pile a
+
+We can construct an equation:
+$a = 2x + y$
+$b = 2y + x$
+
+Then we can solve for x and y.
+By multiplying the equation a by 2 we get 
+$2a = 2y + 4$
+Then we can subtract the two equations to eliminate y.
+$2a = 2y + 4x$
+$b = 2y + x$
+$2a - b = 3x$
+
+This means that for the soultions to exist 
+$(2a - b) mod 3 = 0$
+Or in other words it  should be a multiple of 3.
+
+Similarly
+$(2b - a) mod 3 = 0$
+
+Finally since there cannot be negatice coins we have to make sure:
+$2a -b > 0$
+and
+$2b - a > 0$
+If those conditions hold and they are also a multiple of 3 then we have a solution.

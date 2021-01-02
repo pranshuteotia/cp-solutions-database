@@ -84,6 +84,20 @@ app.use("/get_file", (req, res) => {
 				++current_heading;
 			
 			} else if(current_heading === 4) {
+				if(line.includes("$")) {
+					let start_idx = line.indexOf("$");
+					let end_idx = line.indexOf("$", start_idx+1);
+
+					let first = line.substring(0, start_idx);
+					let latex_part = line.substring(start_idx, end_idx+1);
+					let last = line.substring(end_idx+1);
+
+					while(latex_part.indexOf(" ") != -1) {
+						latex_part = latex_part.replace(" ", "\\,");
+					}
+					line = first + latex_part + last;
+				}
+
 				explanation.push(line);
 			}
 		}

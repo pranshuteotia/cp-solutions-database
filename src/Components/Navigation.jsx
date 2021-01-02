@@ -38,13 +38,14 @@ class Navigation extends Component {
 		event.preventDefault();
 	}
 
+
 	keyHandler(event) {
 		let query = event.target.value;
 		let display_results = [];
 		
 		if(query.length !== 0 && event.key !== "Enter") {
 			for(let file of this.state.files) {
-				if(file.includes(query)) {
+				if(file.toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
 					display_results.push(file);
 				}
 			}
@@ -64,37 +65,38 @@ class Navigation extends Component {
 				this.props.get_data(res);
 			})
 			.catch(err => err);
+
+		this.setState({
+			query: '',
+			display_results: []
+		})
 	}
 
 	render() {
 		return(
 			<Navbar bg="light" expand="lg" className="flex-column">
 				<Navbar.Brand href="#home">CP Solutions Database</Navbar.Brand>
-				<Navbar.Toggle aria-controls="basic-navbar-nav" />
-				<Navbar.Collapse id="basic-navbar-nav" className="align-items-start">
+				<Nav className="flex-column">
+					<Nav.Link href="#">About</Nav.Link>
 
-					<Nav className="flex-column">
-						<Nav.Link href="#">About</Nav.Link>
+					<Form onSubmit={this.onSubmit}>
+						<FormControl type="text" placeholder="Search" value={this.state.query} onChange={this.keyHandler}/>
+						{this.state.display_results.length !== 0 && (
+							<ul className="results">
+								{this.state.display_results.map( (file, i) => {
+									let start_idx = file.toLocaleLowerCase().indexOf(this.state.query.toLocaleLowerCase());
+									let end_idx = start_idx + this.state.query.length;
 
-						<Form onSubmit={this.onSubmit}>
-							<FormControl type="text" placeholder="Search" onKeyUp={this.keyHandler}/>
-							{this.state.files.length !== 0 && (
-								<ul className="results">
-									{this.state.display_results.map( (file, i) => {
-										let start_idx = file.indexOf(this.state.query);
-										let end_idx = start_idx + this.state.query.length;
+									let first = file.substring(0, start_idx);
+									let mid = <span data-name={file} className="highlight">{file.substring(start_idx, end_idx)}</span>;
+									let last = file.substring(end_idx);
 
-										let first = file.substring(0, start_idx);
-										let mid = <span data-name={file} className="highlight">{file.substring(start_idx, end_idx)}</span>;
-										let last = file.substring(end_idx);
-
-										return <li data-name={file} key={i} onClick={this.loadFile}>{first}{mid}{last}</li>
-									})}
-								</ul>
-							)}
-						</Form>
-					</Nav>
-				</Navbar.Collapse>
+									return <li data-name={file} key={i} onClick={this.loadFile}>{first}{mid}{last}</li>
+								})}
+							</ul>
+						)}
+					</Form>
+				</Nav>
 			</Navbar>
 		);
 	}

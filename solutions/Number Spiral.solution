@@ -1,0 +1,57 @@
+-Author Pranshu Teotia
+
+-Name Number Spiral
+
+-Problem_Link https://cses.fi/problemset/task/1071
+
+-Code c++'
+#include <iostream>
+
+int main() {
+  size_t t;
+
+  std::cin >> t;
+
+  while(t--) {
+    size_t x, y;
+    std::cin >> y >> x;
+
+    if(y > x) {
+      if(y % 2 == 0) {
+        std::cout << (y*y) - (x-1) << std::endl;
+      
+      } else {
+        --y;
+        std::cout << (y*y) + x << std::endl; 
+      }
+    
+    } else {
+      if(x % 2 != 0) {
+        std::cout << (x*x) - (y-1) << std::endl;
+      
+      } else {
+        --x;
+        std::cout << (x*x) + y << std::endl;
+      }
+    }
+  }
+}
+'
+
+-Explanation One thing to note is that for the columns odd numbered indicies are squares of the index
+and for the rows, even numbered indicies are squares of the index as well (1 based indexing).
+So we can devise a formula that will give the element at index i, j. There are a couple of cases:
+
+case 1: row index > column index
+	subcase 1: row index is even
+		element = (row * row) - (column-1)
+
+	subcase 2: row index is odd
+		element = ((row-1) * (row-1)) + column
+
+case 2: row <= column index
+	subcase 1: column index is even
+		element = ((column-1) * (column-1)) + row
+
+	subcase 2: column index is odd
+		element = (column*column) - (row-1)

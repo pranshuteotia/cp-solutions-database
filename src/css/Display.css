@@ -6,6 +6,7 @@
 
 .block {
 	display: block;
+	margin: 0;
 }
 
 .placeholder-container {
@@ -15,4 +16,11 @@
 .placeholder {
 	text-align: center;
 	color: #aaa;
+}
+
+.explanation {
+	padding-bottom: 2rem;
+	white-space: pre;
+	font-family: 'Courier New', Courier, monospace;
+	overflow: scroll;
 }

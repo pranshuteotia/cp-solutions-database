@@ -1,0 +1,35 @@
+-Author Pranshu Teotia
+
+-Name Increasing Array
+
+-Problem_Link https://cses.fi/problemset/task/1094
+
+-Code c++'
+#include <iostream>
+
+int main() {
+  size_t n;
+  std::cin >> n;
+
+  long long int last, current;
+  std::cin >> last;
+  size_t turns = 0;
+  for(size_t i=1; i<n; ++i) {
+    std::cin >> current;
+
+    if(last > current) {
+      turns += last - current;
+      last = current + (last - current);
+    
+    } else {
+      last = current;
+    }
+  }
+
+  std::cout << turns << std::endl;
+}
+'
+
+-Explanation Keep track of the last element and the current element. If the last element is
+greater than the current element the difference of the two numbers will be added to turns.
+Update the last value accordingly. Finally, output turns.

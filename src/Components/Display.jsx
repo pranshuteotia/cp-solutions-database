@@ -29,13 +29,13 @@ class Display extends Component {
 					</div>
 				}
 
-				{response !== '{}' && <p>Solution by: {this.props.response.Author}</p>}
+				{response !== '{}' && <p className="author">Solution by: {this.props.response.Author}</p>}
 				
 				{response !== '{}' && <h1>{this.props.response.Name}</h1>}
 				
-				{response !== '{}' && <p><a href={`${this.props.response.Problem_Link}`}>{this.props.response.Problem_Link}</a></p>}
+				{response !== '{}' && <p className="problem-link"><a href={`${this.props.response.Problem_Link}`} rel="noopener noreferrer" target="_blank">{this.props.response.Problem_Link}</a></p>}
 
-				{response !== '{}' && <hr/>}
+				{response !== '{}' && <h2>Code</h2>}
 
 				{response !== '{}' && 
 					<SyntaxHighlighter
@@ -51,9 +51,9 @@ class Display extends Component {
 				{response !== '{}' && <h2>Explanation</h2>}
 
 				{response !== '{}' && 
-					<p>{this.props.response.Explanation.map((line, i) => {
+					<div className="explanation">{this.props.response.Explanation.map((line, i) => {
 						return <span className="block" key={i}>{line}</span>
-					})}</p>
+					})}</div>
 				}
 			</div>
 		);

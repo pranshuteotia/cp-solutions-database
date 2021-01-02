@@ -1,3 +1,7 @@
+nav {
+	position: relative;
+}
+
 .results {
 	background: #eee;
 	margin: 1rem auto;

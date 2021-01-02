@@ -1,0 +1,32 @@
+-Author Pranshu Teotia
+
+-Name Repetitions
+
+-Problem_Link https://cses.fi/problemset/task/1069
+
+-Code c++'
+#include <iostream>
+
+int main() {
+	std::string s;
+	std::cin >> s;
+	
+	size_t m = 0, current = 1;
+	for(size_t i=1; i<s.length(); ++i) {
+		if(s[i] != s[i-1]) {
+			m = std::max(m, current);
+			current = 1;
+		
+		} else {
+			++current;
+		}
+	}
+
+	std::cout << m << std::endl;
+}
+'
+
+-Explanation Keep track of the last character and keep compairing it
+with the next character. If the two characters are not equal then take
+the max of the running length and the max length. After the string has been 
+processed output the max length.

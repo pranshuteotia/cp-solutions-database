@@ -1,0 +1,154 @@
+-Author Pranshu Teotia
+
+-Name Two Knights
+
+-Problem_Link https://cses.fi/problemset/task/1072
+
+-Code c++'
+#include <iostream>
+#define solve(n) ((n*n)*(n*n-1)-(4*2)-(8*3)-((n-4)*4*4)-(4*4)-((n-4)*4*6)-((n-4)*(n-4)*8))/2
+
+int main() {
+  long long int n;
+  std::cin >> n;
+
+  for(long long int i=1; i<=n; ++i) {
+    std::cout << solve(i) << std::endl;
+  }
+}
+'
+
+-Explanation We can devise a formula for this problem.
+
+Consider an 8x8 chessboard:
+
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+
+First things first, the first knight can we placed on the board anywhere which means there are (n*n) cells
+to place the first knight on. That leaves (n*n)-1 cells for the second knight as 1 cell is occupied.
+
+So our formula starts like this: (n*n)*((n*n)-1)
+
+1. Now if we place one knight on any of the four conrners (denoted by a K), the knight attacks 2 cells.
+|K|.|.|.|.|.|.|.|
+|.|.|*|.|.|.|.|.|
+|.|*|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+There are four corners so that makes 4(corners)*2(cells attacked) cells where the second knight cannot be palced.
+So our formula can be updated like this: (n*n)*((n*n)-1) - 4*2
+
+2. If we place one of the knights on the cell next to the corner cell the knight attacks 3 cells.
+|.|.|*|.|.|.|.|.|
+|K|.|.|.|.|.|.|.|
+|.|.|*|.|.|.|.|.|
+|.|*|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+We can place the knight in 8 places next to the corner cell such that it attacks 3 cells, shown below.
+|.|K|.|.|.|.|K|.|
+|K|.|.|.|.|.|.|K|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|K|.|.|.|.|.|.|K|
+|.|K|.|.|.|.|K|.|
+That makes the total cells being attacked 8(cell the knight is on)*3(cells being attacked).
+So our formula can be updated like this: (n*n)*((n*n)-1) - 4*2 - 8*3
+
+3. Next we can place the knight in the cell just below the previous one. Where it attacks 4 cells.
+|.|*|.|.|.|.|.|.|
+|.|.|*|.|.|.|.|.|
+|K|.|.|.|.|.|.|.|
+|.|.|*|.|.|.|.|.|
+|.|*|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+Another thing to note is that if we place the knight anywhere between on row 3 to row 6 it still attacks 4 cells.
+So we can generalise this into an equation which would work for larger boards.
+We can say that if the knight is placed on any of the (n-4) cells it attacks 4 cells.
+|.|.|K|K|K|K|.|.|
+|.|.|.|.|.|.|.|.|
+|K|.|.|.|.|.|.|K| 		We can place the knight on anywhere on the denoted cells and it would 
+|K|.|.|.|.|.|.|K| 		still attack 4 cells.
+|K|.|.|.|.|.|.|K|
+|K|.|.|.|.|.|.|K|
+|.|.|.|.|.|.|.|.|
+|.|.|K|K|K|K|.|.|
+So that means we have 4(number of sides)*(n-4)(cells on which the knight can be placed)*4(cells it attacks).
+which mean out formula can be updated like this: (n*n)*((n*n)-1) - 4*2 - 8*3 - 4*(n-4)*4
+
+4. Next we can place the knight on one of the inner corners and it would attack 4 cells.
+|.|.|.|*|.|.|.|.|
+|.|K|.|.|.|.|.|.|
+|.|.|.|*|.|.|.|.|
+|*|.|*|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+Since there are 4 of those corners as well that makes 4*4 places that the knight attacks.
+So our formula can be updated like this: (n*n)*((n*n)-1) - 4*2 - 8*3 - 4*(n-4)*4 -4*4
+
+5. Next we can place the knight on a cell lower than the previous one where it would attacks 6 cells.
+|*|.|*|.|.|.|.|.|
+|.|.|.|*|.|.|.|.|
+|.|K|.|.|.|.|.|.|
+|.|.|.|*|.|.|.|.|
+|*|.|*|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+And we can generalise this because if we place the knight any lower it would still attack 6 cells. So we
+can place it anywhere or n-4 cells where it would still attack 6 cells.
+|.|.|.|.|.|.|.|.|
+|.|.|K|K|K|K|.|.|
+|.|K|.|.|.|.|K|.|
+|.|K|.|.|.|.|K|.|
+|.|K|.|.|.|.|K|.|
+|.|K|.|.|.|.|K|.|
+|.|.|K|K|K|K|.|.|
+|.|.|.|.|.|.|.|.|
+So we can place the knight anwhere on those positions where it would attack 6  cells.
+Which we means the a knight can attack 4(number of sides)*(n-4)(places to place the knight on)*6(cells it attacks) cells.
+We can update out formula like this: (n*n)*((n*n)-1) - 4*2 - 8*3 - 4*(n-4)*4 -4*4 -4*(n-4)*6
+
+6. Next we are only left with the inner board. If we place the knight anywhere on the inner board it attacks 8 cells.
+|.|*|.|*|.|.|.|.|
+|*|.|.|.|*|.|.|.|
+|.|.|K|.|.|.|.|.|
+|*|.|.|.|*|.|.|.|
+|.|*|.|*|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+
+We can place the knight anywhere on here and it would attack 8 cells.
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|K|K|K|K|.|.|
+|.|.|K|K|K|K|.|.|
+|.|.|K|K|K|K|.|.|
+|.|.|K|K|K|K|.|.|
+|.|.|.|.|.|.|.|.|
+|.|.|.|.|.|.|.|.|
+That means we can also generalise this for larger boards if the knight is placed on one of the (n-4)*(n-4) cells it
+attacks 8 cells. The equation would be (n-4)*(n-4)*8
+So our formula becomes: (n*n)*((n*n)-1) - 4*2 - 8*3 - 4*(n-4)*4 -4*4 -4*(n-4)*6 -(n-4)*(n-4)*8
+
+Finally since there are two knights all the avialble spaces get divided by 2 so our formula finally becomes:
+( (n*n)*((n*n)-1) - 4*2 - 8*3 - 4*(n-4)*4 -4*4 -4*(n-4)*6 -(n-4)*(n-4)*8 )/2

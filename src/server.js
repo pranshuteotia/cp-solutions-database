@@ -15,12 +15,10 @@ const HEADINGS = [
 	"Explanation"
 ]
 
-// app.use(cors());
-// app.use(express.static(path.join(__dirname, '../../build')));
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res, next) => {
 	res.sendFile(__dirname + '/index.html');
-	// res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use("/test", (req, res) => {
@@ -75,14 +73,17 @@ app.use("/get_file", (req, res) => {
 			} else if(line.length === 0 && found_quote) {
 				code.push("\n");
 				
-			} else if(line[0] === "'") {
+			} else if(line.length === 0 && current_heading === 4) {
+				explanation.push("\n");
+
+			}else if(line[0] === "'") {
 				parsed_code = true;
 				found_quote = false;
 				response[HEADINGS[current_heading]] = code;
 				response['Language'] = language;
 				++current_heading;
 			
-			} else {
+			} else if(current_heading === 4) {
 				explanation.push(line);
 			}
 		}

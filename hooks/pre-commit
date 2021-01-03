@@ -97,6 +97,7 @@ for modified_file in modified_files:
 					
 					if return_value != Error.OK:
 						f.close()
+						print(filepath)
 						sys.exit(return_value)
 
 					if j == 3 and line[len(line) -1] == "'":

@@ -1,0 +1,89 @@
+-Author Pranshu Teotia
+
+-Name Ferris Wheel
+
+-Problem_Link https://cses.fi/problemset/task/1090
+
+-Code c++'
+#include <iostream>
+#include <set>
+
+int main() {
+  size_t n, x;
+
+  std::cin >> n >> x;
+
+  std::multiset<size_t> weights;
+  for(size_t i=0; i<n; ++i) {
+    size_t weight;
+    std::cin >> weight;
+
+    weights.insert(weight);
+  }
+
+  size_t gondolas = 0, find_weight = 0;
+  while(!weights.empty()) {
+    if(find_weight == 0) {
+      ++gondolas;
+      find_weight += x - *weights.begin();
+      weights.erase(weights.begin());
+    
+    } else {
+      auto it = weights.lower_bound(find_weight);
+
+      if(it == weights.begin() && *it > find_weight) {
+        find_weight = x - *it;
+        ++gondolas;
+      
+      } else if(it == weights.end() || *it > find_weight) {
+        find_weight = 0;
+        --it;
+      
+      } else {
+        find_weight = 0;
+      }
+
+      weights.erase(it);
+    }
+  }
+
+  std::cout << gondolas << std::endl;
+}
+'
+
+-Explanation The problem states that the gondolas can have at most 2 children that means if one 
+child is already present in a gondola we have to find the best weight to add it to the gondola
+
+Meaning, if a gondola has a weight capacity of x and a child in it has a weight of c then we need
+to find the child with the weight of x -c if a child with that wieght exists. We can use binary search
+to do this efficiently and for binary serach to work the input needs to be sorted.
+
+So we start by taking the sorted input, putting the first child in the gondola and then start searching for
+the next child. 
+
+To do this I have used a data structure called multiset which keeps the elements inside of it sorted. More
+about the multiset on this page <a>https://en.cppreference.com/w/cpp/container/multiset</a>
+
+To permorm binary search on the multiset we can use one of the predefined methods called lower_bound. It
+returns the element being searched for if it exists. If it doesn't exists then it returns the first element
+greater than the element being searched for. Else it returns the iterator to the end of the multiset. More about
+lower_bound here <a>https://en.cppreference.com/w/cpp/container/multiset/lower_bound</a>
+
+So after performing binary search we could run into one of these cases:
+1. It's the first element on the multiset and it is greater than the one that we are looking for
+	In that case we cannot take the previous element as there doesn't exist one so we can just put the 
+	found child into a new gondola (gondola++).
+
+2. It return the end of the multiset or it returns a weight greater than the one that we are looking for.
+	In those cases we can just take the previous element because it will definitely be less than (x-c) and
+	put the child in the gondola. Since the gondola is full now the next child if one exists must go into the
+	new gondola
+
+3. It return the element which we were actually looking for.
+	In that case we can just add that child to the gondola. since the gondola is full now the next child if 
+	one exists must go into the new gondoal.
+
+After putting a child in the gondola we need to earse their weight from the multiset as there will not be
+taken into consideration.
+
+Finally just print out the number of gondolas required.

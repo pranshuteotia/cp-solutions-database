@@ -1,0 +1,28 @@
+-Author Pranshu Teotia
+
+-Name Distinct Numbers
+
+-Problem_Link https://cses.fi/problemset/task/1621
+
+-Code c++'
+#include <iostream>
+#include <unordered_set>
+
+int main() {
+  size_t n;
+  std::cin >> n;
+
+  std::unordered_set<size_t> s;
+  for(size_t i=0; i<n; ++i) {
+    size_t num;
+    std::cin >> num;
+    s.insert(num);
+  }
+
+  std::cout << s.size() << std::endl;
+}
+'
+
+-Explanation The best data structure for this problem would be a set since a
+set doesn't contain duplicate values. So printing the size of the set will always 
+give you the correct output.

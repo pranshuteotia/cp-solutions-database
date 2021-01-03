@@ -1,0 +1,48 @@
+-Author Pranshu Teotia
+
+-Name Restaurant Customers
+
+-Problem_Link https://cses.fi/problemset/task/1619
+
+-Code c++'
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+  size_t n, a, b;
+  std::cin >> n;
+
+  std::vector<std::pair<size_t, int>> customers_data;
+
+  for(size_t i=0; i<n; ++i) {
+    std::cin >> a >> b;
+    customers_data.push_back(std::make_pair(a, 1));
+    customers_data.push_back(std::make_pair(b, -1));
+  }
+
+  std::sort(customers_data.begin(), customers_data.end());
+
+  size_t customers = 0, temp = 0;
+  for(auto p : customers_data) {
+    temp += p.second;
+    customers = std::max(customers, temp);
+  }
+
+  std::cout << customers << std::endl;
+
+}
+'
+
+-Explanation We can maintain a vector of tuples/pairs for this problem. The first element would be
+the time at which a customer arrived or left and the second element would be an integer 1 or -1 for
+arriving and leaving respectively. 
+
+The idea is when a customer arrives we add one to total customer count and when they leave we subtract
+one from the total customer count.
+
+After adding the data in the described way we can sort the the vecotr. In c++ pairs get sorted according to
+their first element unless specified otherwise using custom comparators.
+
+Next we can loop over the sorted vector and just keep adding the second element of the tuple/pair and keep
+maintaining the maximum number of customers at any point. Finally we can just output the maximum variable.

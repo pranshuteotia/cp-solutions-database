@@ -1,0 +1,64 @@
+-Author Pranshu Teotia
+
+-Name Apartments
+
+-Problem_Link https://cses.fi/problemset/task/1084
+
+-Code c++'
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+  size_t n, m, k;
+
+  std::cin >> n >> m >> k;
+
+  std::vector<int> applicants, apartments;
+
+  for(size_t i=0; i<n; ++i){
+    size_t num;
+    std::cin >> num;
+    applicants.push_back(num);
+  }
+
+  for(size_t i=0; i<m; ++i) {
+    size_t num;
+    std::cin >> num;
+    apartments.push_back(num);
+  }
+
+  size_t ans, i, j;
+  ans = i = j = 0;
+
+  std::sort(applicants.begin(), applicants.end());
+  std::sort(apartments.begin(), apartments.end());
+
+  while(i < applicants.size() && j < apartments.size()) {
+    if(std::abs(applicants[i] - apartments[j]) <= k) {
+      ++ans;
+      ++i;
+      ++j;
+    
+    } else if(applicants[i] > apartments[j]) {
+      ++j;
+    
+    } else {
+      ++i;
+    }
+  }
+
+  std::cout << ans << std::endl;
+}
+'
+
+-Explanation Easy to implement using sorting. Sort both the applicants array and the apartments array.
+Have a pointer to the applicants array and one for the apartments array. 
+
+1. If the difference between applicants[i] and apartments[j] is <= k then the applicant will take
+the apartment so we can increment the ans by 1.
+
+2 if the size is not within the reange of k and applicant[i] > apartment[j] then we can increment the
+apartment counter by 1 and compare it with the applicant[i] again.
+
+3 Else we can just increment the applicant counter by 1.

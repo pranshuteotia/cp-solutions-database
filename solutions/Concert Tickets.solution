@@ -1,0 +1,74 @@
+-Author Pranshu Teotia
+
+-Name Concert Tickets
+
+-Problem_Link https://cses.fi/problemset/result/1470163/
+
+-Code c++'
+#include<iostream>
+#include <set>
+#include <vector>
+ 
+int main() {
+  size_t n, m;
+  std::cin >> n >> m;
+  std::multiset<size_t> prices;
+  for(size_t i=0; i<n; ++i) {
+    size_t num;
+    std::cin >> num;
+    prices.insert(num);
+  } 
+  
+  std::vector<size_t> customers;
+  for(size_t i=0; i<m; ++i) {
+    size_t num;
+    std::cin >> num;
+    customers.push_back(num);
+  }
+ 
+  for(size_t price : customers) {
+    
+    if(prices.empty()) {
+      std::cout << -1 << std::endl;
+      continue;
+    }
+
+    auto it = prices.lower_bound(price);
+ 
+    if(it == prices.begin() && *it > price) {
+      std::cout << -1 << std::endl;
+    
+    } else if(it == prices.end() || *it > price) {
+      --it;
+      std::cout << *it << std::endl;
+      prices.erase(it);
+    } else {
+      std::cout << *it << std::endl;
+      prices.erase(it);
+    }
+  }
+}
+'
+
+-Explanation This problem can be solved by using binary search. We can use a multiset to store the
+ticket prices. The property of multiset is that it keeps the data sorted. Next we can loop over every
+customer and search for the price that they are willing to buy the ticket for. By doing binary search 
+we can run into the following cases:
+
+1. There are not more tickets left to sell.
+	In that case we just print -1
+
+2. The ticket is the first ticket in the multiset and it costs more than what the customer is willing
+to pay for.
+	In that case we also print -1 for that customer.
+
+3. Binary search return pointer points to multiset.end() which means that all the ticket prices are 
+lower than the what the customer is willing to pay for OR the binary search pointer doesn't point to the
+first ticket price and the ticket price is more than the price that the customer is willing to pay for.
+	In that case we just go to the previous element which will definitely be less than what the customer
+	is willing to pay for and print that.
+
+4. Binary search return a pointer to the price we searched for.
+	In that case we just print out the price.
+
+For cases 2, 3, and 4 since we have sold a ticket we can remove it from the ticket's list.

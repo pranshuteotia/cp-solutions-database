@@ -1,0 +1,47 @@
+-Author Pranshu Teotia
+
+-Name Movie Festival
+
+-Problem_Link https://cses.fi/problemset/task/1629
+
+-Code c++'
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+int main() {
+  size_t n, a, b;
+  std::cin >> n;
+
+  std::vector<std::pair<size_t, size_t>> movie_times;
+  for(size_t i=0; i<n; ++i) {
+    std::cin >> a >> b;
+    movie_times.push_back(std::make_pair(b, a));
+  }
+
+  std::sort(movie_times.begin(), movie_times.end());
+  size_t last = 0, ans = 0;
+  for(auto movie_time : movie_times) {
+    if(movie_time.second >= last) {
+      ++ans;
+      last = movie_time.first;
+    }
+  }
+
+  std::cout << ans << std::endl;
+}
+'
+
+-Explanation Maintain a tuple/pair vector and sort it according to the ending movie time. In my 
+code I used a little hack. Instead of adding values like this (starting time, finishing time) I added them
+in this way (finishing time, starting time). The reason for that is when sorting a vector of pairs
+it gets sorted according to the first element unless a custom comparator is specified. So adding the values
+in the inverted way allows me to not implement the comparator.
+
+After sorting the values according to the ending time of the movie we can loop over every movie one by one
+and check if the starting time of the current movie is > the finishing time of the last movie. If that is the
+case then we increment the number of movies watched by 1. That's why we also maintain a last movie ending
+time variable and update it whenever the condition is true. The condition makes sense becuase we can only
+watch the next movie if the previous one has ended.
+
+At the end we can just print the number of movies watched.
